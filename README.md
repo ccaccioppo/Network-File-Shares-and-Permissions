@@ -6,7 +6,7 @@
 
 <h1>Network-File-Shares-and-Permissions</h1>
 
-In this lab, we will share resources over a network by creating files and configuring permissions to allow read, write, or deny access for individual users and groups. <br />
+In this lab, we’ll explore how to share resources across a network. We’ll create files and set up permissions to control access, allowing us to grant read or write access to specific users and groups, or even restrict access entirely. <br />
 
 <h2>Environments and Technologies Used</h2>
 
@@ -29,7 +29,7 @@ In this lab, we will share resources over a network by creating files and config
 <img src="https://i.imgur.com/IX7eI1M.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Log into DC-1 using the domain admin account (mydomain.com\ken_admin) and into Client-1 as a normal user (mydomain<someuser>). On DC-1, navigate to the C:\ drive and create four folders named read-access, write-access, no-access, and accounting.
+First, log in to DC-1 using the domain admin account (mydomain.com\ken_admin). Then, log in to Client-1 as a regular user (mydomain<someuser>). Once you're on DC-1, go to the C:\ drive and create four new folders: read-access, write-access, no-access, and accounting.
 </p>
 <br />
 
@@ -37,11 +37,16 @@ Log into DC-1 using the domain admin account (mydomain.com\ken_admin) and into C
 <img src="https://i.imgur.com/YpWvuuh.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-On DC-1, configure the following permissions and share the folders:
-For the read-access folder, assign the Domain Users group the Read permission.
-For the write-access folder, assign the Domain Users group Read/Write permissions.
-For the no-access folder, assign the Domain Admins group Read/Write permissions.
-Skip setting permissions for the accounting folder for now.  
+-On DC-1, set up the following permissions and share the folders accordingly:
+
+-For the read-access folder, grant the Domain Users group Read permissions.
+
+-For the write-access folder, give the Domain Users group Read/Write permissions.
+
+-For the no-access folder, assign Read/Write permissions exclusively to the Domain Admins group.
+
+-As for the accounting folder, we’ll hold off on setting permissions for now.
+
 </p>
 <br />
 
@@ -50,10 +55,13 @@ Skip setting permissions for the accounting folder for now.
 <img src="https://i.imgur.com/Uuy43Na.pngg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-On Client-1, log in as a normal user and open File Explorer. In the search bar, type \\dc-1 to view the shared folders. Attempt to access each folder:
-As a normal user, you should be able to open the read-access folder but only view its contents (no modifications allowed).
-You should have full access to the write-access folder, allowing you to create, edit, and delete files.
-Access to the no-access folder will be denied, as it is restricted to Domain Admins.
+On Client-1, log in with a standard user account and open File Explorer. In the search bar, type \\dc-1 to browse the shared folders. Try accessing each folder to test the permissions:
+
+-As a regular user, you should be able to open the read-access folder and view its contents, but you won’t be able to make any changes.
+
+-You should have full control over the write-access folder, meaning you can create, edit, and delete files as needed.
+
+-When attempting to open the no-access folder, you’ll be denied entry since it’s restricted to Domain Admins only.
 </p>
 <br />
 
@@ -61,7 +69,7 @@ Access to the no-access folder will be denied, as it is restricted to Domain Adm
 <img src="https://i.imgur.com/xsdCaQp.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-On DC-1, open Active Directory Users and Computers (ADUC) and create a new organizational unit (OU) named _GROUPS. Within the _GROUPS OU, create a new security group named ACCOUNTANTS.
+On DC-1, launch Active Directory Users and Computers (ADUC). Create a new organizational unit (OU) called _GROUPS. Inside this _GROUPS OU, set up a new security group named ACCOUNTANTS.
 </p>
 <br />
 
@@ -69,7 +77,7 @@ On DC-1, open Active Directory Users and Computers (ADUC) and create a new organ
 <img src="https://i.imgur.com/cZo9Poi.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Return to ADUC on DC-1 and add some domain users to the newly created ACCOUNTANTS group. To do this, right-click the ACCOUNTANTS group, select Properties, navigate to the Members tab, and add the desired users. Also give the ACCOUNTANTS group read/write permissions for the accounting file now. 
+Head back to ADUC on DC-1 and add a few domain users to the newly created ACCOUNTANTS group. To do this, simply right-click the ACCOUNTANTS group, choose Properties, go to the Members tab, and include the users you want. While you’re there, don’t forget to grant the ACCOUNTANTS group read/write permissions for the accounting file as well. 
 </p>
 <br />
 
@@ -77,6 +85,6 @@ Return to ADUC on DC-1 and add some domain users to the newly created ACCOUNTANT
 <img src="https://i.imgur.com/HzkNmDO.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Restart and then log in to the Client1 VM as the user you added to the ACCOUNTANTS group. Navigate to the shared folder on DC-1 by typing \\dc-1 in File Explorer. Attempt to access the accounting folder. It should now be accessible since the user is part of the group with permissions.
+Restart the Client1 VM and log in using the account you added to the ACCOUNTANTS group. Open File Explorer and type \\dc-1 in the address bar to access the shared folders on DC-1. Try opening the accounting folder. Since the user is now part of the group with the correct permissions, you should be able to access it without any issues.
 </p>
 <br />
